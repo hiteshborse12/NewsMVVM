@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OnBoardingViewController" customModule="News" customModuleProvider="target">
+            <connections>
+                <outlet property="categoryDropDown" destination="vbg-Vg-cS7" id="cYX-Lc-RjU"/>
+                <outlet property="countryDropDown" destination="6uD-tF-QD9" id="bhz-DS-Inw"/>
+                <outlet property="startButton" destination="WwI-Pv-ZZF" id="HeW-ac-qIB"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lTQ-JZ-oWF">
+                    <rect key="frame" x="20" y="388" width="374" height="120"/>
+                    <subviews>
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Category" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vbg-Vg-cS7" customClass="JRDropDown">
+                            <rect key="frame" x="0.0" y="0.0" width="374" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="tYW-At-zVP"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="rowHeight">
+                                    <real key="value" value="50"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="selectedRowColor">
+                                    <color key="value" name="AppThemeBlue"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="isSearchEnable" value="NO"/>
+                            </userDefinedRuntimeAttributes>
+                        </textField>
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Country" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6uD-tF-QD9" customClass="JRDropDown">
+                            <rect key="frame" x="0.0" y="70" width="374" height="50"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="selectedRowColor">
+                                    <color key="value" name="AppThemeBlue"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="isSearchEnable" value="NO"/>
+                                <userDefinedRuntimeAttribute type="number" keyPath="arrowSize">
+                                    <real key="value" value="0.0"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="checkMarkEnabled" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="handleKeyboard" value="NO"/>
+                            </userDefinedRuntimeAttributes>
+                        </textField>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="6uD-tF-QD9" secondAttribute="bottom" id="DdP-GS-WCw"/>
+                        <constraint firstItem="6uD-tF-QD9" firstAttribute="height" secondItem="vbg-Vg-cS7" secondAttribute="height" id="QRc-vu-DlU"/>
+                        <constraint firstItem="vbg-Vg-cS7" firstAttribute="top" secondItem="lTQ-JZ-oWF" secondAttribute="top" id="Tqi-d8-Qvr"/>
+                        <constraint firstItem="6uD-tF-QD9" firstAttribute="leading" secondItem="lTQ-JZ-oWF" secondAttribute="leading" id="Vmm-fx-SWD"/>
+                        <constraint firstItem="vbg-Vg-cS7" firstAttribute="leading" secondItem="lTQ-JZ-oWF" secondAttribute="leading" id="bvB-f7-Huk"/>
+                        <constraint firstItem="6uD-tF-QD9" firstAttribute="top" secondItem="vbg-Vg-cS7" secondAttribute="bottom" constant="20" id="tuo-ze-Br1"/>
+                        <constraint firstAttribute="trailing" secondItem="6uD-tF-QD9" secondAttribute="trailing" id="tzY-O7-BvN"/>
+                        <constraint firstAttribute="trailing" secondItem="vbg-Vg-cS7" secondAttribute="trailing" id="vyS-Ya-Our"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WwI-Pv-ZZF" customClass="CustomButton" customModule="News" customModuleProvider="target">
+                    <rect key="frame" x="40" y="778" width="334" height="44"/>
+                    <color key="backgroundColor" name="AppThemeBlue"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="fcg-1y-QBY"/>
+                    </constraints>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" title="START">
+                        <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="22"/>
+                        <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="startButonAction:" destination="-1" eventType="touchUpInside" id="8iP-aD-r7g"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="lTQ-JZ-oWF" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="Um5-TE-DzJ"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="lTQ-JZ-oWF" secondAttribute="trailing" constant="20" id="WQB-Gs-h8m"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="WwI-Pv-ZZF" secondAttribute="trailing" constant="40" id="Zr1-Xw-W0x"/>
+                <constraint firstItem="lTQ-JZ-oWF" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="hfg-pw-hfg"/>
+                <constraint firstItem="WwI-Pv-ZZF" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="40" id="oBd-KY-5iL"/>
+                <constraint firstItem="lTQ-JZ-oWF" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="toT-an-esX"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="WwI-Pv-ZZF" secondAttribute="bottom" constant="40" id="xaJ-X9-Xwz"/>
+            </constraints>
+            <point key="canvasLocation" x="139" y="73"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="AppThemeBlue">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

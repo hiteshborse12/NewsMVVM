@@ -1,0 +1,28 @@
+//
+//  NetworkConstants.swift
+//  News
+//
+//  Created by Neosoft on 11/08/22.
+//
+
+import Foundation
+
+enum NetworkConstants {
+    private static var appEnvironment: Environment = .staging
+    static let apiKey = "bff9ffaa7ddf4de38b14909e62e49061"
+    static let baseURL = appEnvironment.baseURL
+    static let topHeadlines = "top-headlines"
+}
+enum Environment {
+    case staging
+    case production
+    var baseURL: String {
+        switch self {
+        case .staging:
+            return "https://newsapi.org/v2/"
+        case .production:
+            //for now we don't have any live url
+            return "https://newsapi.org/v2/"
+        }
+    }
+}

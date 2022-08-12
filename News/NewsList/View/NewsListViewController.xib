@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewsListViewController" customModule="News" customModuleProvider="target">
+            <connections>
+                <outlet property="activityIndicator" destination="vu7-gW-skp" id="a8R-Jd-iiW"/>
+                <outlet property="searchBar" destination="IVd-WC-wLH" id="dl4-0U-Jko"/>
+                <outlet property="tableView" destination="SUE-N5-34M" id="eFn-X8-L1J"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="IVd-WC-wLH" customClass="CustomSearchBar" customModule="News" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="54" width="414" height="51"/>
+                    <textInputTraits key="textInputTraits"/>
+                </searchBar>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="SUE-N5-34M">
+                    <rect key="frame" x="0.0" y="105" width="414" height="757"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </tableView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="vu7-gW-skp">
+                    <rect key="frame" x="157" y="398" width="100" height="100"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="100" id="CET-nf-dhq"/>
+                        <constraint firstAttribute="width" constant="100" id="CJE-22-m6e"/>
+                    </constraints>
+                    <color key="color" name="AppThemeBlue"/>
+                </activityIndicatorView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="SUE-N5-34M" secondAttribute="trailing" id="0pS-ca-Wdg"/>
+                <constraint firstItem="SUE-N5-34M" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="6Fy-SJ-a37"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="SUE-N5-34M" secondAttribute="bottom" id="7Ug-ED-MbI"/>
+                <constraint firstItem="SUE-N5-34M" firstAttribute="top" secondItem="IVd-WC-wLH" secondAttribute="bottom" id="8Jc-QH-KuN"/>
+                <constraint firstItem="IVd-WC-wLH" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="WWu-h8-gOo"/>
+                <constraint firstItem="IVd-WC-wLH" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="eCa-r1-9wL"/>
+                <constraint firstItem="vu7-gW-skp" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="elI-7r-k2u"/>
+                <constraint firstItem="vu7-gW-skp" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="sJ6-TF-LcZ"/>
+                <constraint firstAttribute="trailing" secondItem="IVd-WC-wLH" secondAttribute="trailing" id="vXK-vz-Onu"/>
+            </constraints>
+            <point key="canvasLocation" x="139" y="72"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="AppThemeBlue">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
