@@ -14,14 +14,12 @@ enum StringConstants: Error {
     static let noNews = "Sorry, no news found"
 }
 
-
 // MARK: - ErrorHandler Constants
 enum ErrorHandler: Error {
     case selectFields
     case invalidURL
     case generalError
     case custom(String)
-    
     var message: String {
         switch self {
         case .selectFields:

@@ -51,19 +51,23 @@ class NewsListViewController: UIViewController {
             self.viewModel.searchForArticle(by: text)
         }
     }
+    //MARK: Show loding Bar
     private func showLoading() {
         tableView.isUserInteractionEnabled = false
         activityIndicator.startAnimating()
     }
+    //MARK: Hide loding Bar
     func dismissLoading() {
         tableView.isUserInteractionEnabled = true
         activityIndicator.stopAnimating()
     }
+    //MARK: Reload Data
     private  func reloadData() {
         removeIndicators()
         tableView.isHidden = false
         tableView.reloadData()
     }
+    //MARK: Hide footer activity indicator
     private func removeIndicators() {
         tableView.removeActivityIndicatorFromFooter(footerActivityIndicator)
         dismissLoading()
@@ -78,11 +82,13 @@ extension NewsListViewController {
             case .loading:
                 self.showLoading()
             case .loadingMore:
+                //Show footer activity indicator
                 self.footerActivityIndicator = self.tableView.showActivityIndicatorInFooter()
             case .error(let error):
                 self.reloadData()
                 self.show(error: error)
             case .empty:
+                //Show empty view
                 self.tableView.setEmptyView(title: StringConstants.noNews)
             case .populated:
                 self.tableView.restore()
