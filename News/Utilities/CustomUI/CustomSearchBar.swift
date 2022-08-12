@@ -36,6 +36,7 @@ extension CustomSearchBar: UISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.text = ""
         dismissKeyboard(with: "")
     }
     
