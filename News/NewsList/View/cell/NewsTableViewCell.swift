@@ -26,6 +26,8 @@ class NewsTableViewCell: UITableViewCell {
         newsDate.text = dateStr?.UTCToLocal() ?? ""
         if let imageURL = imageURL {
             newsImage.setImageWith(url: imageURL)
+        }else{
+            newsImage.image = #imageLiteral(resourceName: "Placeholder")
         }
     }
 }

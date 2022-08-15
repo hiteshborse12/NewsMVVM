@@ -12,20 +12,18 @@ enum StringConstants: Error {
     static let onboardingTitle = "Category & Country"
     static let backTitle = "Back"
     static let noNews = "Sorry, no news found"
+    static let news = "News"
 }
 
 // MARK: - ErrorHandler Constants
 enum ErrorHandler: Error {
     case selectFields
-    case invalidURL
     case generalError
     case custom(String)
     var message: String {
         switch self {
         case .selectFields:
             return "Please select all fields"
-        case .invalidURL:
-            return "URL is invalid"
         case .generalError:
             return "Something went wrong, please try again"
         case .custom(let message):

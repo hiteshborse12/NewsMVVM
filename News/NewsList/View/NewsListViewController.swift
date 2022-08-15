@@ -106,6 +106,9 @@ extension NewsListViewController: UITableViewDelegate {
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newsDetailViewModel = NewsDetailViewModel(news: viewModel.getNews(at: indexPath.row))
+        let newsDetailViewController = NewsDetailViewController(viewModel: newsDetailViewModel)
+        self.push(viewController: newsDetailViewController)
     }
 }
 //MARK: UITableViewDataSource

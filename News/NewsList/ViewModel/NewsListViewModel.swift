@@ -32,7 +32,7 @@ class NewsListViewModel: NewsListViewModelProtocol {
         self.userSelectedCategoryCountry = userSelectedCategoryCountry
         self.dataSource = dataSource
     }
-    
+    // MARK: - fetch fresh news
     func fetchNews() {
         newsArray = [News]()
         pageNumber = 1
@@ -48,9 +48,11 @@ class NewsListViewModel: NewsListViewModelProtocol {
             loadData(isLoadMore: true)
         }
     }
+    // MARK: - Search news by text
     func searchForArticle(by text: String) {
         hasMoreItems = true
         searchedArticles.removeAll()
+        // cleard past pending search request
         pendingRequestWorkItem?.cancel()
         if text.isEmpty {
             currentState = .notSearching
@@ -63,6 +65,8 @@ class NewsListViewModel: NewsListViewModelProtocol {
                 self.loadData(searchText: text, isLoadMore: false)
             }
             pendingRequestWorkItem = requestWorkItem
+            
+            //l oad data after delay
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250),
                                           execute: requestWorkItem)
         }

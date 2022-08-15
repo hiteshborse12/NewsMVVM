@@ -15,17 +15,16 @@ protocol InputOnBoardingViewModelProtocol {
 protocol OuputOnBoardingViewModelProtocol {
     func getCategories() -> [String]
     func getCountries() -> [String]
-    var moveToNewsListVc: (() -> Void) { get set}
     var userSelectedCategoryCountry: UserSelectedCategoryCountry? { get }
+    var getOnBoardingState: ((OnBoardingState) -> Void) { get set}
 }
 
 // MARK: - Abstraction for OnBoardingViewModel
 protocol OnBoardingViewModelProtocol:InputOnBoardingViewModelProtocol,OuputOnBoardingViewModelProtocol{
 }
 
-// MARK: - OnBoardingViewModel confirm OnBoardingViewModelProtocol
 class OnBoardingViewModel: OnBoardingViewModelProtocol {
-    var moveToNewsListVc: (() -> Void) = { }
+    var getOnBoardingState: ((OnBoardingState) -> Void) = {_ in}
     private var categories = NewsCategory.allCases
     private var countries = NewsCountry.allCases
     private(set) var userSelectedCategoryCountry: UserSelectedCategoryCountry?
@@ -34,12 +33,13 @@ class OnBoardingViewModel: OnBoardingViewModelProtocol {
     
     func startWithSelectedCategoryCountry() {
             guard let selectedCountryIndex = selectedCountryIndex,
-                  let selectedCategoryIndex = selectedCategoryIndex else {return}
+                  let selectedCategoryIndex = selectedCategoryIndex else { getOnBoardingState(.error(ErrorHandler.selectFields))
+                      return}
         let userSelectedCategoryCountry = UserSelectedCategoryCountry(countryISO: countries[selectedCountryIndex].isoCode,
                                         category: categories[selectedCategoryIndex].rawValue,
                                         country: countries[selectedCountryIndex].rawValue)
         self.userSelectedCategoryCountry = userSelectedCategoryCountry
-        self.moveToNewsListVc()
+        getOnBoardingState(.start)
     }
 }
 // MARK: - return data for view
@@ -50,4 +50,8 @@ extension OnBoardingViewModel{
     func getCountries() -> [String] {
         countries.map { $0.rawValue }
     }
+}
+enum OnBoardingState {
+    case error(Error)
+    case start
 }

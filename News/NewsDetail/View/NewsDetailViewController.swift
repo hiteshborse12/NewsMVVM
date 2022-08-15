@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class NewsDetailViewController: UIViewController {
     //MARK: @IBOutlet
@@ -28,6 +29,7 @@ class NewsDetailViewController: UIViewController {
     //MARK: View Life cyle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
     }
     //MARK: SetupView
     private func setupView(){
@@ -36,5 +38,28 @@ class NewsDetailViewController: UIViewController {
     }
     private func setupNewsView(){
         let selectedNews = viewModel.getNews()
+        newsLable.text = selectedNews.title
+        newsDescLable.text = selectedNews.articleDescription
+        if let datestr = selectedNews.publishedAt?.UTCToLocal(){
+            newsDateLable.text = "Published:\(datestr)"
+        }
+        if let authorstr = selectedNews.author{
+            newsAuthorLable.text = "By:\(authorstr)"
+        }
+        if let imageUrl = selectedNews.urlToImage{
+            newsimageView.setImageWith(url: imageUrl)
+        }else{
+            newsimageView.image = #imageLiteral(resourceName: "Placeholder")
+        }
+    }
+    //MARK: - Actions
+    @IBAction private func safariButonAction(_ sender: CustomButton) {
+         openSafariView()
+    }
+    //MARK: - Open news in Safari
+    func openSafariView() {
+        guard let url = viewModel.getNewsUrl() else { return }
+        let safari = SFSafariViewController(url: url)
+        present(safari, animated: true)
     }
 }

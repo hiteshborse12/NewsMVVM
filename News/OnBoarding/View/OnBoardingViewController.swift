@@ -56,15 +56,25 @@ class OnBoardingViewController: UIViewController {
     @IBAction private func startButonAction(_ sender: CustomButton) {
         self.viewModel?.startWithSelectedCategoryCountry()
     }
+    
+    //MARK: - go to News list
+    func gotoNewsListVc(){
+        guard let userSelectedCategoryCountry = self.viewModel?.userSelectedCategoryCountry else { return }
+        let newsListViewModel = NewsListViewModel(userSelectedCategoryCountry: userSelectedCategoryCountry, dataSource: NewsListDataProvider())
+        let newsListViewController = NewsListViewController(viewModel: newsListViewModel)
+        self.push(viewController: newsListViewController)
+    }
 }
 //MARK: Bind viewModel
 extension OnBoardingViewController {
     private func bindViewModel(){
-        viewModel?.moveToNewsListVc = { [weak self] in
-            guard let userSelectedCategoryCountry = self?.viewModel?.userSelectedCategoryCountry else { return }
-            let newsListViewModel = NewsListViewModel(userSelectedCategoryCountry: userSelectedCategoryCountry, dataSource: NewsListDataProvider())
-            let newsListViewController = NewsListViewController(viewModel: newsListViewModel)
-            self?.push(viewController: newsListViewController)
+        viewModel?.getOnBoardingState = {state in
+            switch state{
+            case .error(let error):
+                self.show(error: error)
+            case .start:
+                self.gotoNewsListVc()
+            }
         }
     }
 }
