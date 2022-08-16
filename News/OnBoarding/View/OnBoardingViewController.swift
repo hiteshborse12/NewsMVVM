@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import iOSDropDown
 class OnBoardingViewController: UIViewController {
 
     var viewModel: OnBoardingViewModelProtocol?
@@ -39,14 +38,15 @@ class OnBoardingViewController: UIViewController {
         self.setupCategoryDropDown()
         self.setupCountryDropDown()
         }
-    
     private func setupCategoryDropDown(){
+        self.categoryDropDown.cellAccessibilityIdentifier = "categoryDropDown"
         self.categoryDropDown.optionArray = viewModel?.getCategories() ?? []
         self.categoryDropDown.didSelect{(selectedText , index ,id) in
             self.viewModel?.selectedCategoryIndex = index
             }
     }
     private func setupCountryDropDown(){
+        self.countryDropDown.cellAccessibilityIdentifier = "countryDropDown"
         self.countryDropDown.optionArray = viewModel?.getCountries() ?? []
         self.countryDropDown.didSelect{(selectedText , index ,id) in
             self.viewModel?.selectedCountryIndex = index

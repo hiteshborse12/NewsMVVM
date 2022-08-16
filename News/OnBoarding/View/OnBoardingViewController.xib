@@ -26,8 +26,9 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lTQ-JZ-oWF">
                     <rect key="frame" x="20" y="388" width="374" height="120"/>
                     <subviews>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Category" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vbg-Vg-cS7" customClass="JRDropDown">
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Category" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vbg-Vg-cS7" customClass="DropDown" customModule="News" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="374" height="50"/>
+                            <accessibility key="accessibilityConfiguration" identifier="categoryDropDown"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="tYW-At-zVP"/>
                             </constraints>
@@ -43,8 +44,9 @@
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="isSearchEnable" value="NO"/>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Country" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6uD-tF-QD9" customClass="JRDropDown">
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Country" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6uD-tF-QD9" customClass="DropDown" customModule="News" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="70" width="374" height="50"/>
+                            <accessibility key="accessibilityConfiguration" identifier="countryDropDown"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <userDefinedRuntimeAttributes>
@@ -75,6 +77,7 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WwI-Pv-ZZF" customClass="CustomButton" customModule="News" customModuleProvider="target">
                     <rect key="frame" x="40" y="778" width="334" height="44"/>
                     <color key="backgroundColor" name="AppThemeBlue"/>
+                    <accessibility key="accessibilityConfiguration" identifier="startButton"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="44" id="fcg-1y-QBY"/>
                     </constraints>

@@ -78,6 +78,9 @@
                                 </button>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <accessibility key="accessibilityConfiguration" identifier="newsDetailView">
+                                <bool key="isElement" value="YES"/>
+                            </accessibility>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="Vqr-o8-ara" secondAttribute="trailing" constant="20" id="B1k-ta-yj4"/>
                                 <constraint firstItem="qxP-Kh-VR8" firstAttribute="leading" secondItem="p3h-ks-Ugy" secondAttribute="leading" constant="20" id="C6M-b9-rba"/>

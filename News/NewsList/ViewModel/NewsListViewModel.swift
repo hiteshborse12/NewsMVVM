@@ -10,7 +10,7 @@ import Foundation
 protocol NewsListViewModelProtocol {
     func fetchNews()
     func getNewsCount() -> Int
-    func getNews(at index: Int) -> News
+    func getNews(at index: Int) -> News?
     func loadMoreNews()
     func searchForArticle(by text: String)
     func getTitle() -> String
@@ -52,7 +52,7 @@ class NewsListViewModel: NewsListViewModelProtocol {
     func searchForArticle(by text: String) {
         hasMoreItems = true
         searchedArticles.removeAll()
-        // cleard past pending search request
+        // cleard  pending search request
         pendingRequestWorkItem?.cancel()
         if text.isEmpty {
             currentState = .notSearching
@@ -66,7 +66,7 @@ class NewsListViewModel: NewsListViewModelProtocol {
             }
             pendingRequestWorkItem = requestWorkItem
             
-            //l oad data after delay
+            //load data after delay
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250),
                                           execute: requestWorkItem)
         }
@@ -83,15 +83,12 @@ extension NewsListViewModel{
         return count
     }
     
-    func getNews(at index: Int) -> News {
-        currentState == .notSearching ? newsArray[index] : searchedArticles[index]
-    }
-    
+    func getNews(at index: Int) -> News? {
+        if currentState == .notSearching{ if newsArray.indices.contains(index){return newsArray[index]} else{return nil}}
+        else { if searchedArticles.indices.contains(index){return searchedArticles[index]} else{return nil}}}
     func getTitle() -> String {
-        userSelectedCategoryCountry.category.capitalized
-    }
+        userSelectedCategoryCountry.category.capitalized}
 }
-
 // MARK: - loadData from data source
 extension NewsListViewModel {
     func loadData(searchText: String? = nil, isLoadMore: Bool) {
@@ -111,7 +108,7 @@ extension NewsListViewModel {
         }
     }
     
-    func handleDataLoading(result: NewsResult) {
+    private func handleDataLoading(result: NewsResult) {
         switch result {
         case .success(let value):
             setData(items: value.articles ?? [])

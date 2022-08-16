@@ -7,9 +7,13 @@
 
 import Foundation
 
+// Sample apiKeys
+//bff9ffaa7ddf4de38b14909e62e49061
+//cc15cd9e16604a70888d3baef0c9f083
+//5a930c8356d14db2bd475d72f7be713c
 enum NetworkConstants {
     private static var appEnvironment: Environment = .staging
-    static let apiKey = "bff9ffaa7ddf4de38b14909e62e49061"
+    static let apiKey = "5a930c8356d14db2bd475d72f7be713c"
     static let baseURL = appEnvironment.baseURL
     static let topHeadlines = "top-headlines"
 }

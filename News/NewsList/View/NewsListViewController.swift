@@ -37,6 +37,7 @@ class NewsListViewController: UIViewController {
     private func setupView(){
         self.navigationItem.backButtonTitle = StringConstants.backTitle
         self.title = viewModel.getTitle()
+        setupAccessibilityIdentifier()
         setupTableView()
         setupSearchBar()
     }
@@ -50,6 +51,10 @@ class NewsListViewController: UIViewController {
             guard let self = self else { return}
             self.viewModel.searchForArticle(by: text)
         }
+    }
+    func setupAccessibilityIdentifier(){
+        self.tableView.accessibilityIdentifier = "newsListTableView"
+        self.searchBar.accessibilityIdentifier = "newsListSearchBar"
     }
     //MARK: Show loding Bar
     private func showLoading() {
@@ -106,9 +111,11 @@ extension NewsListViewController: UITableViewDelegate {
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let newsDetailViewModel = NewsDetailViewModel(news: viewModel.getNews(at: indexPath.row))
-        let newsDetailViewController = NewsDetailViewController(viewModel: newsDetailViewModel)
-        self.push(viewController: newsDetailViewController)
+        if let news = viewModel.getNews(at: indexPath.row){
+            let newsDetailViewModel = NewsDetailViewModel(news: news)
+            let newsDetailViewController = NewsDetailViewController(viewModel: newsDetailViewModel)
+            self.push(viewController: newsDetailViewController)
+        }
     }
 }
 //MARK: UITableViewDataSource
@@ -119,8 +126,10 @@ extension NewsListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue() as NewsTableViewCell
-        let article = viewModel.getNews(at: indexPath.row)
-        cell.configureCell(imageURL: article.urlToImage, title: article.title, dateStr: article.publishedAt)
+        cell.accessibilityIdentifier = "NewsTableViewCell_\(indexPath.row)"
+        if let news = viewModel.getNews(at: indexPath.row){
+            cell.configureCell(imageURL: news.urlToImage, title: news.title, dateStr: news.publishedAt)
+        }
         return cell
     }
 }

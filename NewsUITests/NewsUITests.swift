@@ -6,7 +6,7 @@
 //
 
 import XCTest
-
+import Nimble
 class NewsUITests: XCTestCase {
 
     override func setUpWithError() throws {
@@ -22,21 +22,48 @@ class NewsUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
+    func testAppFlow() throws {
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
         app.launch()
-
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
+        
+        //MARK: OnBoarding Flow
+        let categoryDropDown = app.textFields["categoryDropDown"]
+        let countryDropDown = app.textFields["countryDropDown"]
+        let startButton = app.buttons["startButton"]
+        categoryDropDown.tap()
+        if app.tables["categoryDropDown"].waitForExistence(timeout: 5) {
+            let cell = app.tables["categoryDropDown"].cells.matching(.cell, identifier: "categoryDropDown_1")
+            cell.element.tap()
+            expect(categoryDropDown.value as! String).toEventually(equal("Entertainment".capitalized))
+        }
+        countryDropDown.tap()
+        if app.tables["countryDropDown"].waitForExistence(timeout: 5) {
+            let cell = app.tables["countryDropDown"].cells.matching(.cell, identifier: "countryDropDown_1")
+            cell.element.tap()
+            expect(countryDropDown.value as! String).toEventually(equal("Canada".capitalized))
+        }
+        // Move to news list view
+        startButton.tap()
+        
+        
+        //MARK: News List Flow
+        if app.tables["newsListTableView"].waitForExistence(timeout: 5) {
+            let newsListTableView = app.tables["newsListTableView"]
+            let newsListSearchBar = app.textFields["newsListSearchBar"]
+            let cell = newsListTableView.cells.element(boundBy: 0)
+            expect(cell.identifier).to(equal("NewsTableViewCell_0"))
+            // Move to news detail view
+            cell.tap()
+        }
+        
+        //MARK: News List Flow
+        if app.otherElements["newsDetailView"].waitForExistence(timeout: 5) {
+            expect(app.navigationBars.element.identifier).to(equal("News"))
+            //Go back
+            app.navigationBars.buttons.element(boundBy: 0).tap()
+            
         }
     }
+
 }
