@@ -25,8 +25,7 @@ class NewsListViewModel: NewsListViewModelProtocol {
     private var pageNumber: Int = 1
     private var hasMoreItems: Bool = true
     private var pendingRequestWorkItem: DispatchWorkItem?
-    private(set) var currentState: NewsListState = .notSearching
-    private weak var timer: Timer?
+    private(set) var currentSearchingState: NewsListState = .notSearching
     var getLoadingState: ((State) -> Void) = {_ in }
     init(userSelectedCategoryCountry: UserSelectedCategoryCountry, dataSource: NewsListDataServiceprotocol) {
         self.userSelectedCategoryCountry = userSelectedCategoryCountry
@@ -41,7 +40,7 @@ class NewsListViewModel: NewsListViewModelProtocol {
     }
     
     func loadMoreNews() {
-        switch currentState {
+        switch currentSearchingState {
         case .searching(text: let text):
             loadData(searchText: text, isLoadMore: true)
         case .notSearching:
@@ -55,13 +54,13 @@ class NewsListViewModel: NewsListViewModelProtocol {
         // cleard  pending search request
         pendingRequestWorkItem?.cancel()
         if text.isEmpty {
-            currentState = .notSearching
+            currentSearchingState = .notSearching
             fetchNews()
         } else {
             pageNumber = 1
             let requestWorkItem = DispatchWorkItem { [weak self] in
                 guard let self = self else { return }
-                self.currentState = .searching(text: text)
+                self.currentSearchingState = .searching(text: text)
                 self.loadData(searchText: text, isLoadMore: false)
             }
             pendingRequestWorkItem = requestWorkItem
@@ -76,7 +75,7 @@ class NewsListViewModel: NewsListViewModelProtocol {
 // MARK: - return data for view
 extension NewsListViewModel{
     func getNewsCount() -> Int {
-        let count = currentState == .notSearching ? newsArray.count : searchedArticles.count
+        let count = currentSearchingState == .notSearching ? newsArray.count : searchedArticles.count
         if count == 0 {
             self.getLoadingState(.empty)
         }
@@ -84,14 +83,14 @@ extension NewsListViewModel{
     }
     
     func getNews(at index: Int) -> News? {
-        if currentState == .notSearching{ if newsArray.indices.contains(index){return newsArray[index]} else{return nil}}
+        if currentSearchingState == .notSearching{ if newsArray.indices.contains(index){return newsArray[index]} else{return nil}}
         else { if searchedArticles.indices.contains(index){return searchedArticles[index]} else{return nil}}}
     func getTitle() -> String {
         userSelectedCategoryCountry.category.capitalized}
 }
 // MARK: - loadData from data source
 extension NewsListViewModel {
-    func loadData(searchText: String? = nil, isLoadMore: Bool) {
+    private func loadData(searchText: String? = nil, isLoadMore: Bool) {
         guard hasMoreItems else { return }
         if isLoadMore {
             self.getLoadingState(.loadingMore)
@@ -120,7 +119,7 @@ extension NewsListViewModel {
     }
     
     func setData(items: [News]) {
-        switch currentState {
+        switch currentSearchingState {
         case .searching:
             self.searchedArticles.append(contentsOf: items)
             self.getLoadingState(.populated)

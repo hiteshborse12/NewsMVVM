@@ -9,7 +9,7 @@ import Foundation
 
 struct NewsListParameters: Codable {
     
-    let apiKey: String = NetworkConstants.apiKey
+    var apiKey: String = NetworkConstants.apiKey
     let country: String
     let category: String
     let page: Int
@@ -21,7 +21,7 @@ struct NewsListParameters: Codable {
         case query = "q"
     }
     
-    internal init(country: String, category: String, page: Int, query: String? = nil, pageSize: Int? = 20) {
+    internal init(country: String, category: String, page: Int, query: String? = nil, pageSize: Int? = 10) {
         self.country = country
         self.category = category
         self.query = query

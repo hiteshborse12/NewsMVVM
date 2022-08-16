@@ -43,25 +43,32 @@ extension NewsTests{
     func testNewsListViewModelWithNews() throws{
         let userSelectedCategoryCountry = UserSelectedCategoryCountry(countryISO: NewsCountry.canada.isoCode, category: NewsCategory.business.rawValue, country: NewsCountry.canada.rawValue)
         let mockNewsListDataProvider = MockNewsListDataProvider(shouldReturnError: false)
-        let onBoardingViewModel = NewsListViewModel(userSelectedCategoryCountry: userSelectedCategoryCountry, dataSource: mockNewsListDataProvider)
+        let newsListViewModel = NewsListViewModel(userSelectedCategoryCountry: userSelectedCategoryCountry, dataSource: mockNewsListDataProvider)
         
-        onBoardingViewModel.fetchNews()
-        expect(onBoardingViewModel.getNewsCount()) > 0
-        onBoardingViewModel.loadMoreNews()
-        expect(onBoardingViewModel.getNews(at:1000)).to(beNil())
+        newsListViewModel.fetchNews()
+        expect(newsListViewModel.getNewsCount()) > 0
+        newsListViewModel.loadMoreNews()
+        expect(newsListViewModel.getNewsCount()) > 0
+        expect(newsListViewModel.getNews(at:1000)).to(beNil())
     }
     func testNewsListViewModelForSearch() throws{
         let userSelectedCategoryCountry = UserSelectedCategoryCountry(countryISO: NewsCountry.canada.isoCode, category: NewsCategory.business.rawValue, country: NewsCountry.canada.rawValue)
         let mockNewsListDataProvider = MockNewsListDataProviderForSearch()
-        let onBoardingViewModel = NewsListViewModel(userSelectedCategoryCountry: userSelectedCategoryCountry, dataSource: mockNewsListDataProvider)
+        let newsListViewModel = NewsListViewModel(userSelectedCategoryCountry: userSelectedCategoryCountry, dataSource: mockNewsListDataProvider)
         
-        onBoardingViewModel.searchForArticle(by:"demo")
+        newsListViewModel.searchForArticle(by:"demo")
         
         // ToEventually Wait until currentState change to searching
-        expect(onBoardingViewModel.currentState).toEventually(equal(.searching(text: "demo")))
-        expect(onBoardingViewModel.getNewsCount()) == 0
+        expect(newsListViewModel.currentSearchingState).toEventually(equal(.searching(text: "demo")))
+        expect(newsListViewModel.getNewsCount()) == 0
     }
-    
+    func testNewsListViewModelForEmptyArray() throws{
+        let userSelectedCategoryCountry = UserSelectedCategoryCountry(countryISO: NewsCountry.canada.isoCode, category: NewsCategory.business.rawValue, country: NewsCountry.canada.rawValue)
+        let mockNewsListDataProvider = MockNewsListDataProviderForEmptyArray()
+        let newsListViewModel = NewsListViewModel(userSelectedCategoryCountry: userSelectedCategoryCountry, dataSource: mockNewsListDataProvider)
+        newsListViewModel.fetchNews()
+        expect(newsListViewModel.getNewsCount()) == 0
+    }
     func testNewsListViewModelWithError() throws{
         let userSelectedCategoryCountry = UserSelectedCategoryCountry(countryISO: NewsCountry.canada.isoCode, category: NewsCategory.business.rawValue, country: NewsCountry.canada.rawValue)
         let mockNewsListDataProvider = MockNewsListDataProvider(shouldReturnError: true)
@@ -71,7 +78,52 @@ extension NewsTests{
         expect(onBoardingViewModel.getNewsCount()) == 0
     }
 }
-
+// MARK: NewsListDataProvider
+extension NewsTests{
+    func testNewsListDataProviderWithRealApi() throws{
+        let userSelectedCategoryCountry = UserSelectedCategoryCountry(countryISO: NewsCountry.canada.isoCode, category: NewsCategory.business.rawValue, country: NewsCountry.canada.rawValue)
+        let newsListDataProvider = NewsListDataProvider()
+       
+        let requestParameters = NewsListParameters(country: userSelectedCategoryCountry.countryISO,
+                                                   category: userSelectedCategoryCountry.category,
+                                                   page: 1,
+                                                   query: "")
+        
+        waitUntil(timeout: .seconds(5)) { done in
+            newsListDataProvider.loadData(requestParameters: requestParameters) { newsResult in
+                switch newsResult{
+                case .success(let value):
+                    expect(value.articles?.count) > 0
+                case .failure(let error):
+                    expect(error).notTo(beNil())
+                }
+                 done()
+            }
+        }
+    }
+    func testNewsListDataProviderWithError() throws{
+        let userSelectedCategoryCountry = UserSelectedCategoryCountry(countryISO: NewsCountry.canada.isoCode, category: NewsCategory.business.rawValue, country: NewsCountry.canada.rawValue)
+        let newsListDataProvider = NewsListDataProvider()
+       
+        var requestParameters = NewsListParameters(country: userSelectedCategoryCountry.countryISO,
+                                                   category: userSelectedCategoryCountry.category,
+                                                   page: 1,
+                                                   query: "")
+        // Invalid apiKey
+        requestParameters.apiKey = "empty"
+        waitUntil(timeout: .seconds(5)) { done in
+            newsListDataProvider.loadData(requestParameters: requestParameters) { newsResult in
+                switch newsResult{
+                case .success(let value):
+                    expect(value.articles?.count) > 0
+                case .failure(let error):
+                    expect(error).notTo(beNil())
+                }
+                 done()
+            }
+        }
+    }
+}
 // MARK: NewsDetailViewModel
 extension NewsTests{
     func testNewsDetailViewModelWithUrl() throws{
