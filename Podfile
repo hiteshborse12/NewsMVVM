@@ -6,6 +6,7 @@ target 'News' do
   use_frameworks!
  pod 'Alamofire'
  pod 'SDWebImage','~>5.0'
+ pod "PromiseKit", "~> 6.8"
   # Pods for News
 
   target 'NewsTests' do

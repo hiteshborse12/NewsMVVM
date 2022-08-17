@@ -1,6 +1,15 @@
 PODS:
   - Alamofire (5.5.0)
   - Nimble (10.0.0)
+  - PromiseKit (6.18.0):
+    - PromiseKit/CorePromise (= 6.18.0)
+    - PromiseKit/Foundation (= 6.18.0)
+    - PromiseKit/UIKit (= 6.18.0)
+  - PromiseKit/CorePromise (6.18.0)
+  - PromiseKit/Foundation (6.18.0):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (6.18.0):
+    - PromiseKit/CorePromise
   - SDWebImage (5.12.1):
     - SDWebImage/Core (= 5.12.1)
   - SDWebImage/Core (5.12.1)
@@ -8,19 +17,22 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - Nimble
+  - PromiseKit (~> 6.8)
   - SDWebImage (~> 5.0)
 
 SPEC REPOS:
   trunk:
     - Alamofire
     - Nimble
+    - PromiseKit
     - SDWebImage
 
 SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
   Nimble: 5316ef81a170ce87baf72dd961f22f89a602ff84
+  PromiseKit: 879fa89b55fcb8f11ade9aad0c9721850bb71b9f
   SDWebImage: 4dc3e42d9ec0c1028b960a33ac6b637bb432207b
 
-PODFILE CHECKSUM: cf1d6fbd30845e2e16b0b23bacb996e9768a2822
+PODFILE CHECKSUM: 40e1c1f90dc64efd19dd61fe5dca9ebde720b027
 
 COCOAPODS: 1.11.2

@@ -6,7 +6,9 @@
 //
 
 import Foundation
+import PromiseKit
 
+// MARK: - Abstraction for NewsListViewModel
 protocol NewsListViewModelProtocol {
     func fetchNews()
     func getNewsCount() -> Int
@@ -16,7 +18,7 @@ protocol NewsListViewModelProtocol {
     func getTitle() -> String
     var getLoadingState: ((State) -> Void) { get set}
 }
-
+///The view model responsible for NewsList view controller
 class NewsListViewModel: NewsListViewModelProtocol {
     private let userSelectedCategoryCountry: UserSelectedCategoryCountry
     private let dataSource: NewsListDataServiceprotocol
@@ -27,6 +29,13 @@ class NewsListViewModel: NewsListViewModelProtocol {
     private var pendingRequestWorkItem: DispatchWorkItem?
     private(set) var currentSearchingState: NewsListState = .notSearching
     var getLoadingState: ((State) -> Void) = {_ in }
+    
+    /**
+     Init NewsListViewModel
+     - Parameter userSelectedCategoryCountry: UserSelectedCategoryCountry.
+     - Parameter dataSource: NewsListDataProvider
+     */
+    
     init(userSelectedCategoryCountry: UserSelectedCategoryCountry, dataSource: NewsListDataServiceprotocol) {
         self.userSelectedCategoryCountry = userSelectedCategoryCountry
         self.dataSource = dataSource
@@ -101,21 +110,15 @@ extension NewsListViewModel {
                                                    category: userSelectedCategoryCountry.category,
                                                    page: pageNumber,
                                                    query: searchText)
-        dataSource.loadData(requestParameters: requestParameters) {[weak self] result in
-            guard let self = self else { return }
-            self.handleDataLoading(result: result)
-        }
-    }
-    
-    private func handleDataLoading(result: NewsResult) {
-        switch result {
-        case .success(let value):
-            setData(items: value.articles ?? [])
-            checkHasMoreItems(totalResultCount: value.totalResults ?? 0,
-                              isNewArrayNotEmpty: !(value.articles?.isEmpty ?? false))
-        case .failure(let error):
-            self.getLoadingState(.error(error))
-        }
+        dataSource.loadData(requestParameters: requestParameters)
+            .done { newsResponse in
+                self.setData(items: newsResponse.articles ?? [])
+                self.checkHasMoreItems(totalResultCount: newsResponse.totalResults ?? 0,
+                                  isNewArrayNotEmpty: !(newsResponse.articles?.isEmpty ?? false))
+            }
+            .catch { error in
+                self.getLoadingState(.error(error))
+            }
     }
     
     func setData(items: [News]) {

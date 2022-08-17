@@ -33,12 +33,14 @@
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qxP-Kh-VR8">
                                     <rect key="frame" x="20" y="8" width="374" height="0.0"/>
+                                    <accessibility key="accessibilityConfiguration" identifier="newsTitle " label="News Title "/>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                     <color key="textColor" name="AppThemeBlue"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lpP-pa-Mrk">
                                     <rect key="frame" x="20" y="16" width="336" height="30"/>
+                                    <accessibility key="accessibilityConfiguration" identifier="newsDate" label="News Date"/>
                                     <constraints>
                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="VII-O6-FhZ"/>
                                     </constraints>
@@ -48,24 +50,30 @@
                                 </label>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ePE-MG-Sd9">
                                     <rect key="frame" x="20" y="54" width="374" height="210.5"/>
+                                    <accessibility key="accessibilityConfiguration" identifier="NewsImageVew" label="News Image Vew">
+                                        <bool key="isElement" value="YES"/>
+                                    </accessibility>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="ePE-MG-Sd9" secondAttribute="height" multiplier="16:9" id="3aq-cl-3js"/>
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V0q-Ya-MYY">
                                     <rect key="frame" x="20" y="272.5" width="374" height="0.0"/>
+                                    <accessibility key="accessibilityConfiguration" identifier="newsAuthor" label="News Author"/>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                     <color key="textColor" name="AppThemeGray"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vqr-o8-ara">
                                     <rect key="frame" x="20" y="280.5" width="374" height="0.0"/>
+                                    <accessibility key="accessibilityConfiguration" identifier="newsDetail" label="newsDetail"/>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                     <color key="textColor" name="AppThemeBlack"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F2u-C1-uZi">
                                     <rect key="frame" x="364" y="16" width="30" height="30"/>
+                                    <accessibility key="accessibilityConfiguration" identifier="OpenSafari" label="Open in safari"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="3iI-L1-xIc"/>
                                         <constraint firstAttribute="width" constant="30" id="Mxp-KG-tqt"/>
@@ -115,6 +123,9 @@
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <accessibility key="accessibilityConfiguration" label="News Detai lView">
+                <bool key="isElement" value="YES"/>
+            </accessibility>
             <constraints>
                 <constraint firstItem="8pb-Ui-Wyc" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="2ch-m2-1De"/>
                 <constraint firstItem="p3h-ks-Ugy" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="50x-Qj-fg0"/>

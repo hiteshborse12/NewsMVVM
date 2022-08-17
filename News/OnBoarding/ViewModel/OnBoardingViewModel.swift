@@ -22,7 +22,7 @@ protocol OuputOnBoardingViewModelProtocol {
 // MARK: - Abstraction for OnBoardingViewModel
 protocol OnBoardingViewModelProtocol:InputOnBoardingViewModelProtocol,OuputOnBoardingViewModelProtocol{
 }
-
+///The view model responsible for OnBoarding view controller
 class OnBoardingViewModel: OnBoardingViewModelProtocol {
     var getOnBoardingState: ((OnBoardingState) -> Void) = {_ in}
     private var categories = NewsCategory.allCases

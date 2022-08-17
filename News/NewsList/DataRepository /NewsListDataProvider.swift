@@ -6,37 +6,38 @@
 //
 
 import Foundation
+import PromiseKit
 
-typealias NewsResult = Result<NewsResponse, Error>
-typealias NewsBlock = (NewsResult) -> Void
-
+// MARK: - Abstraction for NewsListDataProvider
 protocol NewsListDataServiceprotocol {
-    func loadData(requestParameters: NewsListParameters, completion: NewsBlock?)
+    /**
+     loadData: Fetch News list
+     - Parameter requestParameters: NewsListParameters
+     - Returns: If Promise fulfill then T else erro
+     */
+    func loadData(requestParameters: NewsListParameters)->Promise<NewsResponse>
 }
 
 class NewsListDataProvider: NewsListDataServiceprotocol {
     
     private var apiHandler: NetworkManagerProtocol
-    
+    /**
+     Init NewsListDataProvider
+     - Parameter apiHandler: NetworkManager(Default)
+     */
+
     init(apiHandler: NetworkManagerProtocol = NetworkManager.shared) {
         self.apiHandler = apiHandler
     }
-    
-    func loadData(requestParameters: NewsListParameters, completion: (NewsBlock?)) {
-        let request = NewsListNetworking.fetchArticles(requestParameters)
-        apiHandler.fetchData(request: request, mappingClass: NewsResponse.self) {[weak self] response in
-            guard let self = self else { return }
-            self.handleResponse(result: response, completion: completion)
-        }
-    }
-    
-    private func handleResponse(result: NewsResult, completion: NewsBlock?) {
-        switch result {
-        case .success(let value):
-            completion?(.success(value))
-        case .failure(let error):
-            debugPrint(error.localizedDescription)
-            completion?(.failure(error))
+   
+    func loadData(requestParameters: NewsListParameters)-> Promise<NewsResponse> {
+        return Promise{seal in
+            let request = NewsListNetworking.fetchArticles(requestParameters)
+            apiHandler.fetchData(request: request, mappingClass: NewsResponse.self)
+                .done { newsResponse in
+                    seal.fulfill(newsResponse)}
+                .catch { error in
+                    seal.reject(error)}
         }
     }
 }

@@ -13,7 +13,7 @@ protocol NewsDetailViewModelProtocol{
     func getTitle()->String
     func getNewsUrl()->URL?
 }
-
+///The view model responsible for NewsDetail view controller
 class NewsDetailViewModel: NewsDetailViewModelProtocol {
     private var selectedNews: News
     // MARK: -Init ViewModel with news param

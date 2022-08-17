@@ -54,7 +54,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
 }
-// MARK: - set Root ViewController
+// MARK: - Set Root ViewController
 fileprivate extension SceneDelegate {
     func setRootViewController(to viewController: UIViewController) {
         let navigationController = UINavigationController(rootViewController: viewController)

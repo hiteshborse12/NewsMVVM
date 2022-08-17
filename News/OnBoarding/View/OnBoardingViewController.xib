@@ -32,7 +32,7 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="tYW-At-zVP"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                             <textInputTraits key="textInputTraits"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="rowHeight">
@@ -47,7 +47,7 @@
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Country" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6uD-tF-QD9" customClass="DropDown" customModule="News" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="70" width="374" height="50"/>
                             <accessibility key="accessibilityConfiguration" identifier="countryDropDown"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                             <textInputTraits key="textInputTraits"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="color" keyPath="selectedRowColor">

@@ -46,9 +46,9 @@ extension NewsTests{
         let newsListViewModel = NewsListViewModel(userSelectedCategoryCountry: userSelectedCategoryCountry, dataSource: mockNewsListDataProvider)
         
         newsListViewModel.fetchNews()
-        expect(newsListViewModel.getNewsCount()) > 0
+        expect(newsListViewModel.getNewsCount()).toEventually(equal(10))
         newsListViewModel.loadMoreNews()
-        expect(newsListViewModel.getNewsCount()) > 0
+        expect(newsListViewModel.getNewsCount()).toEventually(equal(20))
         expect(newsListViewModel.getNews(at:1000)).to(beNil())
     }
     func testNewsListViewModelForSearch() throws{
@@ -90,15 +90,16 @@ extension NewsTests{
                                                    query: "")
         
         waitUntil(timeout: .seconds(5)) { done in
-            newsListDataProvider.loadData(requestParameters: requestParameters) { newsResult in
-                switch newsResult{
-                case .success(let value):
+            
+            newsListDataProvider.loadData(requestParameters: requestParameters)
+                .done { value in
                     expect(value.articles?.count) > 0
-                case .failure(let error):
-                    expect(error).notTo(beNil())
+                    done()
                 }
-                 done()
-            }
+                .catch { error in
+                    expect(error).notTo(beNil())
+                    done()
+                }
         }
     }
     func testNewsListDataProviderWithError() throws{
@@ -112,15 +113,13 @@ extension NewsTests{
         // Invalid apiKey
         requestParameters.apiKey = "empty"
         waitUntil(timeout: .seconds(5)) { done in
-            newsListDataProvider.loadData(requestParameters: requestParameters) { newsResult in
-                switch newsResult{
-                case .success(let value):
-                    expect(value.articles?.count) > 0
-                case .failure(let error):
-                    expect(error).notTo(beNil())
-                }
-                 done()
-            }
+            newsListDataProvider.loadData(requestParameters: requestParameters).done({ value in
+                expect(value.articles?.count) > 0
+                done()
+            }).catch({ error in
+                expect(error).notTo(beNil())
+                done()
+            })
         }
     }
 }

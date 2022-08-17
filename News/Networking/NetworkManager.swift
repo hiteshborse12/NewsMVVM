@@ -7,67 +7,77 @@
 
 import Foundation
 import Alamofire
+import PromiseKit
 
-typealias NetworkResponse<T> = (Result<T, Error>) -> Void
-
+// MARK: - Abstraction for NetworkManager
 protocol NetworkManagerProtocol {
-    func fetchData<T: Decodable>(request: ApiRequest, mappingClass: T.Type, completion: NetworkResponse<T>?)
+    /**
+        FetchData: fetchData data from server
+     - Parameter request: ApiRequest
+     - Returns: If Promise fulfill then T else error
+     */
+    func fetchData<T: Decodable>(request: ApiRequest, mappingClass: T.Type)->Promise<T>
 }
-
+// MARK: - Genericnetworking class that will send request to the server and parse the response
 class NetworkManager: NetworkManagerProtocol {
     
     static let shared = NetworkManager()
     
     private init() { }
-    
-    func fetchData<T: Decodable>(request: ApiRequest, mappingClass: T.Type, completion: NetworkResponse<T>?) {
-        getRequestData(request: request).validate(statusCode: 200...300).responseJSON { [weak self] response in
-            guard let self = self else { return }
-            let response = self.handleResponse(response: response, mappingClass: T.self)
-            switch response {
-            case .success(let decodedObject):
-                completion?(.success(decodedObject))
-            case .failure(let error):
-                completion?(.failure(error))
+    //MARK: fetchData from server using Alamofire
+    func fetchData<T: Decodable>(request: ApiRequest, mappingClass: T.Type)->Promise<T> {
+        return Promise { seal in
+            getRequestData(request: request).validate(statusCode: 200...300).responseData { [weak self] response in
+                guard let self = self else { return }
+                firstly {
+                    self.handleResponse(response: response, mappingClass: T.self)
+                }
+                .done { response in
+                    seal.fulfill(response)
+                }
+                .catch { error in
+                    seal.reject(error)
+                }
             }
         }
     }
 }
 
 private extension NetworkManager {
-
-    func getRequestData(request: ApiRequest) -> DataRequest {
+    //MARK: get DataRequest
+    private func getRequestData(request: ApiRequest) -> DataRequest {
         let requestData = AF.request(request.baseURL + request.path,
                                      method: request.method,
                                      parameters: request.parameters,
                                      encoding: request.encoding,
                                      headers: request.headers)
-    
         return requestData
     }
-
-    func handleResponse<T: Decodable> (response: AFDataResponse<Any>, mappingClass: T.Type) -> Result<T, Error> {
-        guard let jsonResponse = response.data else {
-            return .failure(ErrorHandler.generalError)
-        }
-        switch response.result {
-        case .success:
-            do {
-                let decodedObj = try JSONDecoder().decode(T.self, from: jsonResponse)
-                return .success(decodedObj)
-            } catch (let error) {
-                debugPrint("Error in decoding ** \n \(error.localizedDescription)")
-                return .failure(ErrorHandler.generalError)
+    //MARK: handle server response using JSONDecoder
+    private func handleResponse<T: Decodable> (response: DataResponse<Data, AFError>, mappingClass: T.Type) -> Promise<T> {
+        return Promise { seal in
+            
+            guard let jsonResponse = response.data else {
+                return seal.reject(ErrorHandler.generalError)
             }
-
-        case .failure(let error):
-            debugPrint(error.localizedDescription)
-            do {
-                let errorModel = try JSONDecoder().decode(ErrorModel.self, from: jsonResponse)
-                return .failure(ErrorHandler.custom(errorModel.message ?? ""))
-            } catch {
-                return .failure(error)
+            switch response.result {
+            case .success:
+                do {
+                    let decodedObj = try JSONDecoder().decode(T.self, from: jsonResponse)
+                    return seal.fulfill(decodedObj)
+                } catch  {
+                    return seal.reject(ErrorHandler.generalError)
+                }
+                
+            case .failure:
+                do {
+                    let errorModel = try JSONDecoder().decode(ErrorModel.self, from: jsonResponse)
+                    return seal.reject(ErrorHandler.custom(errorModel.message ?? ""))
+                } catch {
+                    return seal.reject(error)
+                }
             }
+            
         }
     }
 }
