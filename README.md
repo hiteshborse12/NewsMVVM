@@ -24,6 +24,7 @@ Generate own API Key : https://newsapi.org/register
     - Alamofire
     - SDWebImage
     - Nimble(For unit testing)
+    - PromiseKit
 - News org api: https://newsapi.org/docs
 
 ## Author
