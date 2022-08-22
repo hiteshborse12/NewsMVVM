@@ -7,18 +7,8 @@
 
 import Foundation
 import PromiseKit
-
-// MARK: - Abstraction for NewsListDataProvider
-protocol NewsListDataServiceprotocol {
-    /**
-     loadData: Fetch News list
-     - Parameter requestParameters: NewsListParameters
-     - Returns: If Promise fulfill then T else erro
-     */
-    func loadData(requestParameters: NewsListParameters)->Promise<NewsResponse>
-}
-
-class NewsListDataProvider: NewsListDataServiceprotocol {
+// MARK: - NewsListDataProvider which conform NewsListUseCase Protocol
+class NewsListDataProvider: NewsListUseCase {
     
     private var apiHandler: NetworkManagerProtocol
     /**
@@ -30,10 +20,10 @@ class NewsListDataProvider: NewsListDataServiceprotocol {
         self.apiHandler = apiHandler
     }
    
-    func loadData(requestParameters: NewsListParameters)-> Promise<NewsResponse> {
+    func execute(requestParameters: NewsListParameters)-> Promise<NewsResponse> {
         return Promise{seal in
             let request = NewsListNetworking.fetchArticles(requestParameters)
-            apiHandler.fetchData(request: request, mappingClass: NewsResponse.self)
+            apiHandler.fetchData(request: request)
                 .done { newsResponse in
                     seal.fulfill(newsResponse)}
                 .catch { error in

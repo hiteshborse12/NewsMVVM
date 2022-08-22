@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
         //Set Root View Controller
-        let onboardingViewModel = OnBoardingViewModel()
+        let onboardingViewModel = OnBoardingViewModel(useCaseProvider: OnBoardingDataProvider())
         let onBoardingViewController = OnBoardingViewController(viewModel: onboardingViewModel)
         setRootViewController(to: onBoardingViewController)
     }

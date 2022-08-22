@@ -16,29 +16,29 @@ protocol NewsListViewModelProtocol {
     func loadMoreNews()
     func searchForArticle(by text: String)
     func getTitle() -> String
-    var getLoadingState: ((State) -> Void) { get set}
+    var getLoadingState: ((NewsListViewState) -> Void) { get set}
 }
 ///The view model responsible for NewsList view controller
 class NewsListViewModel: NewsListViewModelProtocol {
     private let userSelectedCategoryCountry: UserSelectedCategoryCountry
-    private let dataSource: NewsListDataServiceprotocol
+    private let useCase: NewsListUseCase
     private var newsArray = [News]()
     private var searchedArticles = [News]()
     private var pageNumber: Int = 1
     private var hasMoreItems: Bool = true
     private var pendingRequestWorkItem: DispatchWorkItem?
-    private(set) var currentSearchingState: NewsListState = .notSearching
-    var getLoadingState: ((State) -> Void) = {_ in }
+    private(set) var currentSearchingState: SearchingState = .notSearching
+    var getLoadingState: ((NewsListViewState) -> Void) = {_ in }
     
     /**
      Init NewsListViewModel
      - Parameter userSelectedCategoryCountry: UserSelectedCategoryCountry.
-     - Parameter dataSource: NewsListDataProvider
+     - Parameter useCaseProvider: NewsListDataProvider
      */
     
-    init(userSelectedCategoryCountry: UserSelectedCategoryCountry, dataSource: NewsListDataServiceprotocol) {
+    init(userSelectedCategoryCountry: UserSelectedCategoryCountry, useCaseProvider: NewsListUseCase) {
         self.userSelectedCategoryCountry = userSelectedCategoryCountry
-        self.dataSource = dataSource
+        self.useCase = useCaseProvider
     }
     // MARK: - fetch fresh news
     func fetchNews() {
@@ -110,7 +110,7 @@ extension NewsListViewModel {
                                                    category: userSelectedCategoryCountry.category,
                                                    page: pageNumber,
                                                    query: searchText)
-        dataSource.loadData(requestParameters: requestParameters)
+        useCase.execute(requestParameters: requestParameters)
             .done { newsResponse in
                 self.setData(items: newsResponse.articles ?? [])
                 self.checkHasMoreItems(totalResultCount: newsResponse.totalResults ?? 0,
@@ -140,15 +140,17 @@ extension NewsListViewModel {
         }
     }
 }
-// MARK: - States
-enum NewsListState: Equatable {
-    case searching(text: String)
-    case notSearching
-}
-enum State {
+// MARK: - News List View States
+enum NewsListViewState {
     case loading
     case loadingMore
     case error(Error)
     case empty
     case populated
 }
+// MARK: - Searching States
+enum SearchingState: Equatable {
+    case searching(text: String)
+    case notSearching
+}
+

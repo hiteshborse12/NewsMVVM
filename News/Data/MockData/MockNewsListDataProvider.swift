@@ -10,16 +10,16 @@ import PromiseKit
 /**
  MockNewsListDataProvider: Mock news JSON response
  */
-struct MockNewsListDataProvider: NewsListDataServiceprotocol {
+struct MockNewsListDataProvider: NewsListUseCase {
     var shouldReturnError: Bool
     var error: Error = ErrorHandler.generalError
-    func loadData(requestParameters: NewsListParameters) -> Promise<NewsResponse> {
+    func execute(requestParameters: NewsListParameters) -> Promise<NewsResponse> {
         return Promise{seal in
             if shouldReturnError {
                 seal.reject(error)
                 return
             }
-            var jSONObject = MockNewsJson.mockJSONResponsePage1
+            let jSONObject = MockNewsJson.mockJSONResponsePage1
             let data = try! JSONSerialization.data(withJSONObject: jSONObject, options: .prettyPrinted)
             let decodedObject = try! JSONDecoder().decode(NewsResponse.self, from: data)
             seal.fulfill(decodedObject)
@@ -29,8 +29,8 @@ struct MockNewsListDataProvider: NewsListDataServiceprotocol {
 /**
  MockNewsListDataProviderForSearch: Empty mock JSON response for search
  */
-struct MockNewsListDataProviderForSearch: NewsListDataServiceprotocol {
-    func loadData(requestParameters: NewsListParameters) -> Promise<NewsResponse> {
+struct MockNewsListDataProviderForSearch: NewsListUseCase {
+    func execute(requestParameters: NewsListParameters) -> Promise<NewsResponse> {
         return Promise {seal in
             let data = try! JSONSerialization.data(withJSONObject: MockNewsJson.mockEmptyJSONResponse, options: .prettyPrinted)
             let decodedObject = try! JSONDecoder().decode(NewsResponse.self, from: data)
@@ -42,8 +42,8 @@ struct MockNewsListDataProviderForSearch: NewsListDataServiceprotocol {
 /**
  MockNewsListDataProviderForEmptyArray: Empty mock JSON response
  */
-struct MockNewsListDataProviderForEmptyArray: NewsListDataServiceprotocol {
-    func loadData(requestParameters: NewsListParameters) -> Promise<NewsResponse> {
+struct MockNewsListDataProviderForEmptyArray: NewsListUseCase {
+    func execute(requestParameters: NewsListParameters) -> Promise<NewsResponse> {
         return Promise{ seal in
             let data = try! JSONSerialization.data(withJSONObject: MockNewsJson.mockEmptyJSONResponse, options: .prettyPrinted)
             let decodedObject = try! JSONDecoder().decode(NewsResponse.self, from: data)

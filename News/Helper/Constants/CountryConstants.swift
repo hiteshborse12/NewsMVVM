@@ -1,52 +1,11 @@
 //
-//  Constants.swift
+//  CountryConstants.swift
 //  News
 //
-//  Created by Neosoft on 12/08/22.
+//  Created by Neosoft on 22/08/22.
 //
 
 import Foundation
-
-// MARK: - String Constants
-enum StringConstants: Error {
-    static let onboardingTitle = "Category & Country"
-    static let backTitle = "Back"
-    static let noNews = "Sorry, no news found"
-    static let news = "News"
-}
-
-// MARK: - ErrorHandler Constants
-enum ErrorHandler: Error {
-    case selectFields
-    case generalError
-    case custom(String)
-    var message: String {
-        switch self {
-        case .selectFields:
-            return "Please select all fields"
-        case .generalError:
-            return "Something went wrong, please try again"
-        case .custom(let message):
-            return message
-        }
-    }
-}
-
-// MARK: - Category Constants
-/*
- Available Categories
- business entertainment general health sciences ports technology
- */
-enum NewsCategory: String, CaseIterable {
-    case business
-    case entertainment
-    case general
-    case health
-    case sciences
-    case ports
-    case technology
-}
-
 // MARK: - Country Constants
 enum NewsCountry: String, CaseIterable {
     case unitedStates = "The United States of America"

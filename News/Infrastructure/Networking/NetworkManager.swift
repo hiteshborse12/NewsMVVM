@@ -16,7 +16,7 @@ protocol NetworkManagerProtocol {
      - Parameter request: ApiRequest
      - Returns: If Promise fulfill then T else error
      */
-    func fetchData<T: Decodable>(request: ApiRequest, mappingClass: T.Type)->Promise<T>
+    func fetchData<T: Decodable>(request: ApiRequest)->Promise<T>
 }
 // MARK: - Genericnetworking class that will send request to the server and parse the response
 class NetworkManager: NetworkManagerProtocol {
@@ -25,7 +25,7 @@ class NetworkManager: NetworkManagerProtocol {
     
     private init() { }
     //MARK: fetchData from server using Alamofire
-    func fetchData<T: Decodable>(request: ApiRequest, mappingClass: T.Type)->Promise<T> {
+    func fetchData<T: Decodable>(request: ApiRequest)->Promise<T> {
         return Promise { seal in
             getRequestData(request: request).validate(statusCode: 200...300).responseData { [weak self] response in
                 guard let self = self else { return }

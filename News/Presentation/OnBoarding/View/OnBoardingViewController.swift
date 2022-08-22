@@ -60,8 +60,10 @@ class OnBoardingViewController: UIViewController {
     //MARK: - go to News list
     func gotoNewsListVc(){
         guard let userSelectedCategoryCountry = self.viewModel?.userSelectedCategoryCountry else { return }
-        let newsListViewModel = NewsListViewModel(userSelectedCategoryCountry: userSelectedCategoryCountry, dataSource: NewsListDataProvider())
+        let newsListViewModel = NewsListViewModel(userSelectedCategoryCountry: userSelectedCategoryCountry, useCaseProvider: NewsListDataProvider())
+        
         let newsListViewController = NewsListViewController(viewModel: newsListViewModel)
+        
         self.push(viewController: newsListViewController)
     }
 }
